@@ -93,40 +93,40 @@ class Utils {
 	}
 
 	/**
-	 * Adds an action with a possibly increased priority to ensure it will be executed during the current action.
+	 * Adds a callback to an action hook with a possibly increased priority to ensure execution within the action.
 	 *
-	 * @param string   $tag The name of the action to add or execute.
+	 * @param string   $hook The name of the action to add the callback to.
 	 * @param callable $callback The callback function to be executed.
-	 * @param int      $priority Optional. The priority at which the function should be fired. Default is 10.
-	 * @param int      $accepted_args Optional. The number of arguments the function accepts. Default is 1.
+	 * @param int      $priority Optional. The priority at which the callback should be fired. Default is 10.
+	 * @param int      $accepted_args Optional. The number of arguments the callback accepts. Default is 1.
 	 */
-	public static function add_elastic_action( string $tag, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
+	public static function add_elastic_action( string $hook, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
 		global $wp_filter;
 
-		if ( doing_action( $tag ) ) {
+		if ( doing_action( $hook ) ) {
 			// Increase priority if necessary to ensure the callback is executed.
-			$priority = max( $priority, 1 + $wp_filter[ $tag ]->current_priority() );
+			$priority = max( $priority, 1 + $wp_filter[ $hook ]->current_priority() );
 		}
 
-		add_action( $tag, $callback, $priority, $accepted_args );
+		add_action( $hook, $callback, $priority, $accepted_args );
 	}
 
 	/**
-	 * Adds a filter with a possibly increased priority to ensure it will be executed during the current filter.
+	 * Adds a callback to a filter hook with a possibly increased priority to ensure execution within the filter.
 	 *
-	 * @param string   $tag The name of the filter to add or execute.
+	 * @param string $hook The name of the filter to add the callback to.
 	 * @param callable $callback The callback function to be executed.
-	 * @param int      $priority Optional. The priority at which the function should be fired. Default is 10.
-	 * @param int      $accepted_args Optional. The number of arguments the function accepts. Default is 1.
+	 * @param int $priority Optional. The priority at which the callback should be fired. Default is 10.
+	 * @param int $accepted_args Optional. The number of arguments the callback accepts. Default is 1.
 	 */
-	public static function add_elastic_filter( string $tag, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
+	public static function add_elastic_filter( string $hook, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
 		global $wp_filter;
 
-		if ( doing_filter( $tag ) ) {
+		if ( doing_filter( $hook ) ) {
 			// Increase priority if necessary to ensure the callback is executed.
-			$priority = max( $priority, 1 + $wp_filter[ $tag ]->current_priority() );
+			$priority = max( $priority, 1 + $wp_filter[ $hook ]->current_priority() );
 		}
 
-		add_filter( $tag, $callback, $priority, $accepted_args );
+		add_filter( $hook, $callback, $priority, $accepted_args );
 	}
 }
