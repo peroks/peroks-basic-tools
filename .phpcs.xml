@@ -11,20 +11,10 @@
 	<config name="text_domain" value="peroks-basic-tools"/>
 
 	<rule ref="WordPress">
-		<exclude name="Generic.CodeAnalysis.AssignmentInCondition.Found"/>
-		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
 		<exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
 		<exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
 		<exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments"/>
-		<exclude name="Squiz.Commenting.BlockComment.NoNewLine"/>
-		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
-		<exclude name="Squiz.Commenting.FunctionComment.EmptyThrows"/>
-		<exclude name="Squiz.Commenting.FunctionComment.IncorrectTypeHint"/>
-		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
-		<exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber"/>
-		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
-		<exclude name="Squiz.PHP.DisallowMultipleAssignments.Found"/>
-		<exclude name="Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure"/>
+    	<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/>
 		<exclude name="Universal.Operators.DisallowShortTernary.Found"/>
 	</rule>

@@ -36,7 +36,7 @@ class Utils {
 	 * Converts a string to an array.
 	 *
 	 * @param string|array $value A string to be converted or an array to be returned as is.
-	 * @param string $separator The string separator, default to comma.
+	 * @param string       $separator The string separator, default to comma.
 	 *
 	 * @return array The converted or original array.
 	 */
@@ -114,10 +114,10 @@ class Utils {
 	/**
 	 * Adds a callback to a filter hook with a possibly increased priority to ensure execution within the filter.
 	 *
-	 * @param string $hook The name of the filter to add the callback to.
+	 * @param string   $hook The name of the filter to add the callback to.
 	 * @param callable $callback The callback function to be executed.
-	 * @param int $priority Optional. The priority at which the callback should be fired. Default is 10.
-	 * @param int $accepted_args Optional. The number of arguments the callback accepts. Default is 1.
+	 * @param int      $priority Optional. The priority at which the callback should be fired. Default is 10.
+	 * @param int      $accepted_args Optional. The number of arguments the callback accepts. Default is 1.
 	 */
 	public static function add_elastic_filter( string $hook, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
 		global $wp_filter;
