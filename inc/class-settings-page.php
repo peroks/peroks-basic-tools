@@ -122,7 +122,7 @@ class Settings_Page {
 
 		if ( is_admin() ) {
 			// Adds the submenu page to the admin menu.
-			Utils::add_or_exec_action( 'admin_menu', [ $this, 'add_sub_menu' ] );
+			Utils::add_elastic_action( 'admin_menu', [ $this, 'add_sub_menu' ] );
 
 			// Displays a "Settings" link on the Plugins page.
 			if ( $this->get_page_property( 'plugin_basename' ) ) {
@@ -276,7 +276,7 @@ class Settings_Page {
 			'description' => '',
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_section( $param->section, $param->label, function () use ( $param ) {
 				printf( '<p>%s</p>', wp_kses_post( Utils::to_string( $param->description ) ) );
 			}, $this->slug );
@@ -324,7 +324,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				vprintf( '<input type="checkbox" id="%s" class="%s" name="%s" value="1"%s%s>', [
 					esc_attr( $param->option ),
@@ -382,7 +382,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				printf( '<p class="description">%s</p>', wp_kses_post( Utils::to_string( $param->description ) ) );
 
@@ -447,7 +447,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				vprintf( '<select id="%s" class="%s" name="%s"%s>', [
 					esc_attr( $param->option ),
@@ -518,7 +518,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				printf( '<p class="description">%s</p>', wp_kses_post( Utils::to_string( $param->description ) ) );
 
@@ -581,7 +581,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				vprintf( '<input type="number" id="%s" class="%s" name="%s" value="%d"%s>', [
 					esc_attr( $param->option ),
@@ -641,7 +641,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				vprintf( '<input type="%s" id="%s" class="%s" name="%s" value="%s" placeholder="%s"%s>', [
 					esc_attr( $param->type ),
@@ -724,7 +724,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				vprintf( '<textarea id="%s" class="%s" rows="%d" name="%s" placeholder="%s" %s>%s</textarea>', [
 					esc_attr( $param->option ),
@@ -787,7 +787,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				vprintf( '<textarea id="%s" class="%s" rows="%d" name="%s" placeholder="%s" %s>%s</textarea>', [
 					esc_attr( $param->option ),
@@ -851,7 +851,7 @@ class Settings_Page {
 			'default'           => $sanitize( $param->default ),
 		] );
 
-		is_admin() && Utils::add_or_exec_action( 'admin_menu', function () use ( $param ) {
+		is_admin() && Utils::add_elastic_action( 'admin_menu', function () use ( $param ) {
 			add_settings_field( $param->option, $param->label, function () use ( $param ) {
 				$value = get_option( $param->option );
 				$size  = is_array( $param->size ) ? join( 'x', $param->size ) : $param->size;

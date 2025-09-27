@@ -93,23 +93,40 @@ class Utils {
 	}
 
 	/**
-	 * Adds an action or executes it immediately if already doing it.
-	 *
-	 * This is useful when you want to ensure that a callback is executed during a specific action,
-	 * but also want to execute it immediately if that action is already being processed.
+	 * Adds an action with a possibly increased priority to ensure it will be executed during the current action.
 	 *
 	 * @param string   $tag The name of the action to add or execute.
 	 * @param callable $callback The callback function to be executed.
 	 * @param int      $priority Optional. The priority at which the function should be fired. Default is 10.
-	 * @param mixed    ...$args Optional. Additional arguments to pass to the callback function.
+	 * @param int      $accepted_args Optional. The number of arguments the function accepts. Default is 1.
 	 */
-	public static function add_or_exec_action( string $tag, callable $callback, int $priority = 10, ...$args ): void {
+	public static function add_elastic_action( string $tag, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
 		global $wp_filter;
 
-		if ( doing_action( $tag ) && $priority <= $wp_filter[ $tag ]->current_priority() ) {
-			$args ? call_user_func_array( $callback, $args ) : call_user_func( $callback );
-		} else {
-			add_action( $tag, $callback, $priority, count( $args ) );
+		if ( doing_action( $tag ) ) {
+			// Increase priority if necessary to ensure the callback is executed.
+			$priority = max( $priority, 1 + $wp_filter[ $tag ]->current_priority() );
 		}
+
+		add_action( $tag, $callback, $priority, $accepted_args );
+	}
+
+	/**
+	 * Adds a filter with a possibly increased priority to ensure it will be executed during the current filter.
+	 *
+	 * @param string   $tag The name of the filter to add or execute.
+	 * @param callable $callback The callback function to be executed.
+	 * @param int      $priority Optional. The priority at which the function should be fired. Default is 10.
+	 * @param int      $accepted_args Optional. The number of arguments the function accepts. Default is 1.
+	 */
+	public static function add_elastic_filter( string $tag, callable $callback, int $priority = 10, int $accepted_args = 1 ): void {
+		global $wp_filter;
+
+		if ( doing_filter( $tag ) ) {
+			// Increase priority if necessary to ensure the callback is executed.
+			$priority = max( $priority, 1 + $wp_filter[ $tag ]->current_priority() );
+		}
+
+		add_filter( $tag, $callback, $priority, $accepted_args );
 	}
 }
