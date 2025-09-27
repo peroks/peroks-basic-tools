@@ -117,6 +117,6 @@ class Plugin {
 // Initialize the plugin and notify that it's fully loaded and ready.
 if ( defined( 'ABSPATH' ) && ABSPATH ) {
 	add_action( 'plugins_loaded', function () {
-		do_action( Plugin::PREFIX . '_loaded', Plugin::instance() );
+		do_action( Plugin::PREFIX . '_ready', Plugin::instance() );
 	}, 20 );
 }
