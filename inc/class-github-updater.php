@@ -212,8 +212,8 @@ class Github_Updater {
 			$this->release = false;
 
 			$repo = wp_parse_url( $this->repository_url );
-			$host = trim( $repo['host'] ?? null );
-			$path = trim( $repo['path'] ?? null, '/' );
+			$host = trim( $repo['host'] ?? '' );
+			$path = trim( $repo['path'] ?? '', '/' );
 			$args = [];
 
 			if ( 'github.com' === $host && strpos( $path, '/' ) ) {

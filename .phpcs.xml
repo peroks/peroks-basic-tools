@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Silverscreen">
-	<description>Silverscreen Tours Coding Standards</description>
+	<description>Peroks Coding Standards</description>
 
 	<!-- Arguments: colors, show progress and show sniff name. -->
 	<arg value="ps"/>

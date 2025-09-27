@@ -2,26 +2,24 @@
 /**
  * Plugin Name:       Basic Plugin Tools
  * Description:       Basic tools and classes for use in other WordPress plugins.
- *
- * Text Domain:       peroks-basic-tools
- * Domain Path:       /languages
- *
- * Author:            Per Egil Roksvaag
- * Author URI:        https://github.com/peroks
- *
  * Plugin URI:        https://github.com/peroks/peroks-basic-tools
  * Update URI:        https://github.com/peroks/peroks-basic-tools
- *
- * Version:           0.2.7
- * Stable tag:        0.2.7
+ * Text Domain:       peroks-basic-tools
+ * Domain Path:       /languages
+ * Author:            Per Egil Roksvaag
+ * Author URI:        https://github.com/peroks
+ * License:           MIT
+ * Version:           0.3
+ * Stable tag:        0.3
  * Requires at least: 6.6
- * Tested up to:      6.7
+ * Tested up to:      6.8
  * Requires PHP:      8.1
  */
 
 declare( strict_types = 1 );
 namespace Peroks\WP\Plugin\Tools;
 
+// Require the singleton trait.
 require_once __DIR__ . '/inc/trait-singleton.php';
 
 /**
@@ -45,21 +43,6 @@ class Plugin {
 	const PREFIX = 'peroks_basic_tools';
 
 	/**
-	 * The plugin global filter hooks.
-	 */
-	const FILTER_CLASS_NAME     = self::PREFIX . '/class_name';
-	const FILTER_CLASS_INSTANCE = self::PREFIX . '/class_instance';
-	const FILTER_CLASS_PATHS    = self::PREFIX . '/class_paths';
-	const FILTER_PLUGIN_VERSION = self::PREFIX . '/plugin_version';
-	const FILTER_PLUGIN_PATH    = self::PREFIX . '/plugin_path';
-	const FILTER_PLUGIN_URL     = self::PREFIX . '/plugin_url';
-
-	/**
-	 * The plugin global action hooks.
-	 */
-	const ACTION_CLASS_LOADED = self::PREFIX . '/class_loaded';
-
-	/**
 	 * Constructor.
 	 */
 	protected function __construct() {
@@ -71,9 +54,9 @@ class Plugin {
 	 * Registers autoloading.
 	 */
 	protected function autoload(): void {
-		$classes = apply_filters( self::FILTER_CLASS_PATHS, [
+		$classes = [
 			// Plugin setup.
-			__NAMESPACE__ . '\\Admin'          => static::path( 'inc/class-admin.php' ),
+			__NAMESPACE__ . '\\Settings'       => static::path( 'inc/class-settings.php' ),
 			__NAMESPACE__ . '\\Setup'          => static::path( 'inc/class-setup.php' ),
 
 			// Basic tools.
@@ -81,7 +64,7 @@ class Plugin {
 			__NAMESPACE__ . '\\Plugin_Data'    => static::path( 'inc/class-plugin-data.php' ),
 			__NAMESPACE__ . '\\Settings_Page'  => static::path( 'inc/class-settings-page.php' ),
 			__NAMESPACE__ . '\\Utils'          => static::path( 'inc/class-utils.php' ),
-		] );
+		];
 
 		spl_autoload_register( function ( $name ) use ( $classes ) {
 			if ( array_key_exists( $name, $classes ) ) {
@@ -95,19 +78,15 @@ class Plugin {
 	 * You must register your classes for autoloading (above) before you can run them here.
 	 */
 	protected function run(): void {
+		Settings::instance();
 		Setup::instance();
-
-		if ( is_admin() ) {
-			Admin::instance();
-		}
 	}
 
 	/**
 	 * Gets the current plugin version.
 	 */
 	public static function version(): string {
-		$version = Plugin_Data::create( self::FILE )->Version;
-		return apply_filters( self::FILTER_PLUGIN_VERSION, $version, static::class );
+		return Plugin_Data::create( self::FILE )->Version;
 	}
 
 	/**
@@ -119,8 +98,7 @@ class Plugin {
 	 */
 	public static function path( string $path = '' ): string {
 		$path = ltrim( trim( $path ), '/' );
-		$full = plugin_dir_path( self::FILE ) . $path;
-		return apply_filters( self::FILTER_PLUGIN_PATH, $full, $path );
+		return plugin_dir_path( self::FILE ) . $path;
 	}
 
 	/**
@@ -132,12 +110,13 @@ class Plugin {
 	 */
 	public static function url( string $path = '' ): string {
 		$path = ltrim( trim( $path ), '/' );
-		$url  = plugins_url( $path, self::FILE );
-		return apply_filters( self::FILTER_PLUGIN_URL, $url, $path );
+		return plugins_url( $path, self::FILE );
 	}
 }
 
-// Registers and runs the main plugin class.
+// Initialize the plugin and notify that it's fully loaded and ready.
 if ( defined( 'ABSPATH' ) && ABSPATH ) {
-	add_action( 'plugins_loaded', [ Plugin::class, 'instance' ] );
+	add_action( 'plugins_loaded', function () {
+		do_action( Plugin::PREFIX . '_loaded', Plugin::instance() );
+	}, 20 );
 }
